@@ -220,9 +220,10 @@
     <h2>🐾 PET CARE</h2>
     <button class="logout" id="btn-citas">Citas ▾</button>
     <div class="submenu" id="submenu-citas">        
-        <br><button class="bton-active" onclick="agendar()" href="#">- Agendar</button><br>
+        <br><button class="bton-active" onclick="agendar()" href="#">- Agendar</button>
         <br><button class="logouts" onclick="Ver()" href="#">- Ver Citas</button>            
          <br><button class="logouts" onclick="eliminarC()" href="#">- Eliminar</button>
+         <button class="logouts" onclick="modificarC()" href="#">- Modificar Cita</button>
     </div>    
     <button class="logout" id="btn-inventario">Inventario ▾</button>
     <div class="submenu" id="submenu-inventario">        
@@ -240,7 +241,6 @@
     <div class="formulario">
       <h2>Agendar nueva cita</h2>
       <form id="formCita">        
-        <input type="text" id="id" placeholder="Id cita" required>
         <input type="text" id="cliente" placeholder="Nombre del cliente" required>
 
         <input type="text" id="mascota" placeholder="Nombre de la mascota" required>
@@ -275,32 +275,37 @@
   </div>
 
   <script>
-    const form = document.getElementById('formCita');
+const form = document.getElementById('formCita');
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
+form.addEventListener('submit', e => {
+  e.preventDefault();
 
-      const nuevaCita = {
-        id: document.getElementById('id').value,
-        cliente: document.getElementById('cliente').value,
-        mascota: document.getElementById('mascota').value,
-        tipo: document.getElementById('tipo').value,
-        motivo: document.getElementById('motivo').value,
-        veterinario: document.getElementById('veterinario').value,
-        prioridad: document.getElementById('prioridad').value,
-        hora: document.getElementById('hora').value,
-        fecha: document.getElementById('fecha').value
-      };
+  const datos = new URLSearchParams();
+  datos.append("cliente", document.getElementById("cliente").value);
+  datos.append("mascota", document.getElementById("mascota").value);
+  datos.append("tipo", document.getElementById("tipo").value);
+  datos.append("motivo", document.getElementById("motivo").value);
+  datos.append("veterinario", document.getElementById("veterinario").value);
+  datos.append("prioridad", document.getElementById("prioridad").value);
+  datos.append("hora", document.getElementById("hora").value);
+  datos.append("fecha", document.getElementById("fecha").value);
 
-      // Obtener citas guardadas o crear lista vacía
-      const citas = JSON.parse(localStorage.getItem('citas')) || [];
-      citas.push(nuevaCita);
-      localStorage.setItem('citas', JSON.stringify(citas));
+  fetch("api_citas.php?accion=crear", {
+      method: "POST",
+      body: datos
+  })
+  .then(res => res.text())
+  .then(resp => {
+      if(resp === "ok"){
+          alert("Cita guardada correctamente en la base de datos ✔");
+          form.reset();
+      } else {
+          alert("Error al guardar: " + resp);
+      }
+  });
+});
+</script>
 
-      alert('✅ Cita guardada correctamente');
-      form.reset();
-    });
-  </script>
 
     <!--Funcion para el menu desplegable-->
 <script>
@@ -349,6 +354,11 @@ btnInventario.addEventListener('click', () => {
     }
 </script>
   
+<script>
+    function modificarC (){
+        window.location.href = "modificarCitas.html";
+    }
+</script>
 <!--Navegacion entre pantallas de los botones del menu principal de INVENTARIO-->
 <script>
     function agregarIn (){

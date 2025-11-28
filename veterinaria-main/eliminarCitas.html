@@ -19,7 +19,7 @@
 
     .menu {
       width: 220px;
-      background-color: #5fa5b5;
+      background-color: #65A8C2;
       color: white;
       padding: 20px;
       border-radius: 10px;
@@ -49,6 +49,7 @@
       border-radius: 5px;
       text-align: center;
       color: white;
+      
     }
 
     .formulario {
@@ -60,7 +61,7 @@
     }
 
     h2 {
-      background-color: #6da9b7;
+      background-color: #65A8C2;
       color: white;
       text-align: center;
       padding: 10px;
@@ -77,19 +78,22 @@
 
     .grupo {
       margin-bottom: 15px;
+      text-align: center;
     }
 
     .boton-accion {
-      background-color: #7a6b6b;
-      color: white;
+      background-color: #e5f4f1;
+      color: rgb(16, 15, 15);
       border: none;
       padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
+      
     }
 
     .boton-accion:hover {
       background-color: #5e5252;
+      
     }
 
     .mensaje {
@@ -178,7 +182,7 @@
     .boton-salir {
       display: block;
       margin-top: 30px;
-      background-color: #7a6b6b;
+      background-color: #B5D6CB;
       padding: 10px;
       border-radius: 5px;
       text-align: center;
@@ -202,7 +206,7 @@
       margin-top: 30px;
       background-color: #B5D6CB;
       padding: 8px 15px;
-      border-radius: 5px;
+      border-radius: 100px;
       cursor: pointer;
     }
      /*menu desplegable*/
@@ -237,7 +241,7 @@
     margin-top: 25px;
       background-color: #4CAF50;
       padding: 8px 15px;
-      border-radius: 5px;
+      border-radius: 100px;
       cursor: pointer;
 }
   </style>
@@ -252,7 +256,8 @@
     <div class="submenu" id="submenu-citas">        
         <br><button class="logouts" onclick="agendar()">- Agendar</button><br>
         <br><button class="logouts" onclick="Ver()">- Ver Citas</button><br> 
-        <button class="bton-active" onclick="eliminarC()" href="#">- Eliminar Cita</button>            
+        <button class="bton-active" onclick="eliminarC()" href="#">- Eliminar Cita</button>   
+        <button class="logouts" onclick="modificarC()" href="#">- Modificar Cita</button>         
     </div>    
     <button class="logout" id="btn-inventario">Inventario  ▾</button>
     <div class="submenu" id="submenu-inventario">        
@@ -304,62 +309,77 @@
 
   <script>
     // Referencias a los elementos
-    const buscarInput = document.getElementById('buscar');
-    const btnEliminar = document.getElementById('btnEliminar');
-    const mensaje = document.getElementById('mensaje');
 
-    // Leer citas desde localStorage (vienen desde verCitas o agendarCitas)
-    let citas = JSON.parse(localStorage.getItem('citas')) || [];
-    let citaEncontrada = null;
+const buscarInput = document.getElementById('buscar');
+const mensaje = document.getElementById('mensaje');
+const btnEliminar = document.getElementById('btnEliminar');
+let citaEncontrada = null;
 
-    // Buscar cita
-    buscarInput.addEventListener('keyup', () => {
-      const valor = buscarInput.value.toLowerCase();
+// Buscar en MySQL
+buscarInput.addEventListener('keyup', () => {
+    const texto = buscarInput.value;
 
-      citaEncontrada = citas.find(c =>
-        c.mascota.toLowerCase().includes(valor) ||
-        c.cliente.toLowerCase().includes(valor)
-      );
+    fetch("api_buscarCita.php?buscar=" + texto)
+    .then(r => r.text())
+    .then(res => {
+        if (res === "no") {
+            limpiarCampos();
+            mensaje.textContent = "No se encontró ninguna cita.";
+            mensaje.style.color = "red";
+        } else {
+            let cita = JSON.parse(res);
+            citaEncontrada = cita;
 
-      if (citaEncontrada) {
-        document.getElementById('cliente').value = citaEncontrada.cliente;
-        document.getElementById('mascota').value = citaEncontrada.mascota;
-        document.getElementById('fecha').value = citaEncontrada.fecha;
-        document.getElementById('hora').value = citaEncontrada.hora;
-        document.getElementById('veterinario').value = citaEncontrada.veterinario;
-        mensaje.textContent = "✅ Cita encontrada.";
-        mensaje.style.color = "green";
-      } else {
-        limpiarCampos();
-        mensaje.textContent = "No se encontró ninguna cita.";
-        mensaje.style.color = "red";
-      }
+            document.getElementById('cliente').value = cita.cliente;
+            document.getElementById('mascota').value = cita.mascota;
+            document.getElementById('fecha').value = cita.fecha;
+            document.getElementById('hora').value = cita.hora;
+            document.getElementById('veterinario').value = cita.veterinario;
+
+            mensaje.textContent = "Cita encontrada ✔";
+            mensaje.style.color = "green";
+        }
     });
+});
 
-    // Eliminar cita
-    btnEliminar.addEventListener('click', () => {
-      if (!citaEncontrada) {
-        mensaje.textContent = "❌ No hay cita seleccionada.";
+// Eliminar en MySQL
+btnEliminar.addEventListener('click', () => {
+    if (!citaEncontrada) {
+        mensaje.textContent = "No hay cita seleccionada";
         mensaje.style.color = "red";
         return;
-      }
-
-      citas = citas.filter(c => c.id !== citaEncontrada.id);
-      localStorage.setItem('citas', JSON.stringify(citas));
-
-      limpiarCampos();
-      buscarInput.value = "";
-      mensaje.textContent = "✅ Cita eliminada correctamente.";
-      mensaje.style.color = "green";
-    });
-
-    function limpiarCampos() {
-      document.getElementById('cliente').value = "";
-      document.getElementById('mascota').value = "";
-      document.getElementById('fecha').value = "";
-      document.getElementById('hora').value = "";
-      document.getElementById('veterinario').value = "";
     }
+
+    const datos = new URLSearchParams();
+    datos.append("id", citaEncontrada.id_cita);
+
+    fetch("api_eliminarCita.php", {
+        method: "POST",
+        body: datos
+    })
+    .then(r => r.text())
+    .then(res => {
+        if (res === "ok") {
+            mensaje.textContent = "Cita eliminada correctamente ✔";
+            mensaje.style.color = "green";
+            limpiarCampos();
+            buscarInput.value = "";
+        } else {
+            mensaje.textContent = "Error: " + res;
+            mensaje.style.color = "red";
+        }
+    });
+});
+
+function limpiarCampos() {
+    document.getElementById('cliente').value = "";
+    document.getElementById('mascota').value = "";
+    document.getElementById('fecha').value = "";
+    document.getElementById('hora').value = "";
+    document.getElementById('veterinario').value = "";
+}
+
+
   </script>
 
 
@@ -402,6 +422,11 @@ btnInventario.addEventListener('click', () => {
 <script>
     function eliminarC (){
         window.location.href = "eliminarCitas.html";
+    }
+</script>
+<script>
+    function modificarC (){
+        window.location.href = "modificarCitas.html";
     }
 </script>
 
