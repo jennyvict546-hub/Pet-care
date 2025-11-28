@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Citas - PET CARE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #c9e4e7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .contenedor {
+      display: flex;
+      margin: 30px;
+    }
+
+    .menu {
+      width: 220px;
+      background-color: #5fa5b5;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .menu h2 {
+      text-align: center;
+      font-family: 'Comic Sans MS';
+    }
+
+    .menu a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .menu a:hover {
+      text-decoration: underline;
+    }
+
+    .boton-salir {
+      display: block;
+      margin-top: 30px;
+      background-color: #7a6b6b;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      color: white;
+    }
+
+    .formulario {
+      flex-grow: 1;
+      background-color: #b6d9d3;
+      padding: 20px;
+      border-radius: 10px;
+      margin-left: 30px;
+    }
+
+    h2 {
+      background-color: #6da9b7;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    input {
+      padding: 8px;
+      border: 1px solid #a0bcb6;
+      border-radius: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .grupo {
+      margin-bottom: 15px;
+    }
+
+    .boton-accion {
+      background-color: #7a6b6b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .boton-accion:hover {
+      background-color: #5e5252;
+    }
+
+    .mensaje {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    /* Menú lateral */
+    .menu-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 160px);
+      gap: 25px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .menu-buttons button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 140px;
+      font-size: 16px;
+      border: none;
+      background-color: #65A8C2;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;      
+    }
+
+    .menu-buttons button:hover {
+      background-color: #65A8C2;
+      transform: scale(1.05);
+    }
+    .menu {
+      width: 220px;
+      background-color: #65A8C2;
+      color: rgb(30, 25, 25);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .menu h2 {
+      text-align: center;
+      font-family: 'Comic Sans MS';
+    }
+
+    .menu a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .menu a:hover {
+      text-decoration: underline;
+    }
+    .sidebar {
+      width: 200px;
+      background-color: #65A8C2;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 150vh;
+    }
+    
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .boton-salir {
+      display: block;
+      margin-top: 30px;
+      background-color: #7a6b6b;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      color: white;
+    }
+       .logoutc {
+      margin-top: 30px;
+      background-color: #e05a5a;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .logout {
+      margin-top: 30px;
+      background-color: #e5f4f1;
+      padding: 8px 15px;
+      border-radius: 55px;
+      cursor: pointer;
+    }
+    .logouts {
+      margin-top: 30px;
+      background-color: #B5D6CB;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+     /*menu desplegable*/
+    .menu-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  background-color: #65A8C2;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+  background-color: #ddd;
+}
+
+.menu-btn.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.submenu {
+  display: none; /* oculto por defecto */
+  padding-left: 20px;
+}
+.submenu.show {
+  display: block; /* mostrar cuando se active */
+}
+.bton-active{
+    margin-top: 25px;
+      background-color: #4CAF50;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+}
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <!-- Menú lateral -->
+    <div class="sidebar">
+    <img src="logo.png" alt="logo" width="180" height="200">
+    <h2>🐾 PET CARE</h2>
+    <button class="logout" id="btn-citas">Citas ▾</button>
+    <div class="submenu" id="submenu-citas">        
+        <br><button class="logouts" onclick="agendar()">- Agendar</button><br>
+        <br><button class="logouts" onclick="Ver()">- Ver Citas</button><br> 
+        <button class="bton-active" onclick="eliminarC()" href="#">- Eliminar Cita</button>            
+    </div>    
+    <button class="logout" id="btn-inventario">Inventario  ▾</button>
+    <div class="submenu" id="submenu-inventario">        
+        <button class="logouts" onclick="agregar()" href="#">- Agregar</button><br>
+        <button class="logouts" onclick="modificar()" href="#">- Modificar</button><br>      
+        <button class="logouts" onclick="eliminarI()" href="#">- Eliminar</button>      
+    </div>
+    <button class="logout" onclick="Clientes()" href="#">Clientes</button>
+    <button class="logout" onclick="Usuarios()" href="#">Usuarios</button>
+    <button  class="logout" onclick="Consultas()" href="#">Consultas></button>
+    <div class="logoutc" onclick="cerrarSesion()">Cerrar sesión</div>
+  </div>
+
+    <!-- Formulario eliminar -->
+    <div class="formulario">
+      <h2>Eliminar cita</h2>
+
+      <div class="grupo">
+        <input type="text" id="buscar" placeholder="Buscar por nombre del cliente o mascota">
+      </div>
+
+      <div class="grupo">
+        <input type="text" id="cliente" placeholder="Nombre del cliente" disabled>
+      </div>
+
+      <div class="grupo">
+        <input type="text" id="mascota" placeholder="Nombre de la mascota" disabled>
+      </div>
+
+      <div class="grupo">
+        <input type="text" id="fecha" placeholder="Fecha de la cita" disabled>
+      </div>
+
+      <div class="grupo">
+        <input type="text" id="hora" placeholder="Hora de la cita" disabled>
+      </div>
+
+      <div class="grupo">
+        <input type="text" id="veterinario" placeholder="Veterinario" disabled>
+      </div>
+
+      <div class="grupo">
+        <button class="boton-accion" id="btnEliminar">Eliminar cita</button>
+      </div>
+
+      <p class="mensaje" id="mensaje"></p>
+    </div>
+  </div>
+
+  <script>
+    // Referencias a los elementos
+    const buscarInput = document.getElementById('buscar');
+    const btnEliminar = document.getElementById('btnEliminar');
+    const mensaje = document.getElementById('mensaje');
+
+    // Leer citas desde localStorage (vienen desde verCitas o agendarCitas)
+    let citas = JSON.parse(localStorage.getItem('citas')) || [];
+    let citaEncontrada = null;
+
+    // Buscar cita
+    buscarInput.addEventListener('keyup', () => {
+      const valor = buscarInput.value.toLowerCase();
+
+      citaEncontrada = citas.find(c =>
+        c.mascota.toLowerCase().includes(valor) ||
+        c.cliente.toLowerCase().includes(valor)
+      );
+
+      if (citaEncontrada) {
+        document.getElementById('cliente').value = citaEncontrada.cliente;
+        document.getElementById('mascota').value = citaEncontrada.mascota;
+        document.getElementById('fecha').value = citaEncontrada.fecha;
+        document.getElementById('hora').value = citaEncontrada.hora;
+        document.getElementById('veterinario').value = citaEncontrada.veterinario;
+        mensaje.textContent = "✅ Cita encontrada.";
+        mensaje.style.color = "green";
+      } else {
+        limpiarCampos();
+        mensaje.textContent = "No se encontró ninguna cita.";
+        mensaje.style.color = "red";
+      }
+    });
+
+    // Eliminar cita
+    btnEliminar.addEventListener('click', () => {
+      if (!citaEncontrada) {
+        mensaje.textContent = "❌ No hay cita seleccionada.";
+        mensaje.style.color = "red";
+        return;
+      }
+
+      citas = citas.filter(c => c.id !== citaEncontrada.id);
+      localStorage.setItem('citas', JSON.stringify(citas));
+
+      limpiarCampos();
+      buscarInput.value = "";
+      mensaje.textContent = "✅ Cita eliminada correctamente.";
+      mensaje.style.color = "green";
+    });
+
+    function limpiarCampos() {
+      document.getElementById('cliente').value = "";
+      document.getElementById('mascota').value = "";
+      document.getElementById('fecha').value = "";
+      document.getElementById('hora').value = "";
+      document.getElementById('veterinario').value = "";
+    }
+  </script>
+
+
+      <!--Funcion para el menu desplegable-->
+<script>
+    // Selecciona el botón y el submenú
+const btnCitas = document.getElementById('btn-citas');
+const submenuCitas = document.getElementById('submenu-citas');
+
+const btnInventario = document.getElementById('btn-inventario');
+const submenuInventario = document.getElementById('submenu-inventario');
+// Al hacer clic en el botón de Citas
+btnCitas.addEventListener('click', () => {
+  // Alternar la visibilidad del submenú
+  submenuCitas.classList.toggle('show');
+
+  // Marcar o desmarcar el botón como activo
+  btnCitas.classList.toggle('active');
+});
+btnInventario.addEventListener('click', () => {
+
+   // Alternar la visibilidad del submenú
+  submenuInventario.classList.toggle('show');
+  // Marcar o desmarcar el botón como activo
+  btnCitas.classList.toggle('active');
+  btnInventario.classList.toggle('active');
+});
+</script>
+
+<script>
+    function Ver (){
+        window.location.href = "verCitas.html";
+    }
+</script>
+<script>
+    function agendar (){
+        window.location.href = "agendarCitas.html";
+    }
+</script>
+<script>
+    function eliminarC (){
+        window.location.href = "eliminarCitas.html";
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

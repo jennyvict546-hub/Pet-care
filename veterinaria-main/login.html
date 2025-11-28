@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Pet Care</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e5f4f1;
+      display: flex;
+      height: 100vh;
+    }
+
+    .logo-section {
+      background-color: #65A8C2;
+      color: white;
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-section {
+      background-color: white;
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    input {
+      width: 250px;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #65A8C2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #65A8C2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-section">
+    <img src="logo.png">
+    <h1>🐾 PET CARE</h1>    
+  </div>
+
+  <div class="login-section">
+    <h2>Inicio de sesión</h2>
+    <input type="text" id="usuario" placeholder="Usuario">
+    <input type="password" id="contraseña" placeholder="Contraseña">
+    <a href="#">¿Olvidaste tu contraseña?</a><br>
+    <button onclick="iniciarSesion()">Iniciar sesión</button>
+  </div>
+
+  <script>
+    function iniciarSesion() {
+      const usuario = document.getElementById('usuario').value;
+      const contraseña = document.getElementById('contraseña').value;
+
+      if (usuario === "admin" && contraseña === "1234") {
+        // Redirige a la carpeta del menú principal
+        window.location.href = "menu_principal.html";
+      } else {
+        alert("Usuario o contraseña incorrectos");
+      }
+    }
+  </script>
+
+</body>
+</html>

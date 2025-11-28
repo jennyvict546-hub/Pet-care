@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendar Citas - PET CARE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e5f4f1;
+      margin: 0;
+      padding: 0;
+    }
+
+    .logoutc {
+      margin-top: 30px;
+      background-color: #e05a5a;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .logout {
+      margin-top: 30px;
+      background-color: #e5f4f1;
+      padding: 8px 15px;
+      border-radius: 55px;
+      cursor: pointer;
+    }
+    .logouts {
+      margin-top: 30px;
+      background-color: #B5D6CB;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .sidebar {
+      width: 200px;
+      background-color: #65A8C2;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 150vh;
+    }
+    
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .contenedor {
+      display: flex;
+      margin: 30px;
+    }
+
+    /* Menú lateral */
+    .menu-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 160px);
+      gap: 25px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .menu-buttons button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 140px;
+      font-size: 16px;
+      border: none;
+      background-color: #65A8C2;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;      
+    }
+
+    .menu-buttons button:hover {
+      background-color: #65A8C2;
+      transform: scale(1.05);
+    }
+    .menu {
+      width: 220px;
+      background-color: #65A8C2;
+      color: rgb(30, 25, 25);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .menu h2 {
+      text-align: center;
+      font-family: 'Comic Sans MS';
+    }
+
+    .menu a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .menu a:hover {
+      text-decoration: underline;
+    }
+
+    .boton-salir {
+      display: block;
+      margin-top: 30px;
+      background-color: #7a6b6b;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      color: white;
+    }
+
+    /* Formulario */
+    .formulario {
+      flex-grow: 1;
+      background-color: #b6d9d3;
+      padding: 20px;
+      border-radius: 10px;
+      margin-left: 30px;
+    }
+
+    
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    input, select, textarea {
+      padding: 8px;
+      border: 1px solid #a0bcb6;
+      border-radius: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      grid-column: span 2;
+      height: 80px;
+    }
+
+    .boton-guardar {
+      grid-column: span 2;
+      text-align: center;
+    }
+
+    button {
+      background-color: #e5f4f1;
+      color: #000000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e5f4f1;
+    }
+    /*menu desplegable*/
+    .menu-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  background-color: #65A8C2;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+  background-color: #ddd;
+}
+
+.menu-btn.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.submenu {
+  display: none; /* oculto por defecto */
+  padding-left: 20px;
+}
+.submenu.show {
+  display: block; /* mostrar cuando se active */
+}
+.bton-active{
+    margin-top: 25px;
+      background-color: #4CAF50;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+}
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <!-- Menú lateral -->
+      <div class="sidebar">
+    <img src="logo.png" alt="logo" width="180" height="200">
+    <h2>🐾 PET CARE</h2>
+    <button class="logout" id="btn-citas">Citas ▾</button>
+    <div class="submenu" id="submenu-citas">        
+        <br><button class="logouts" onclick="agendar()" href="#">- Agendar</button><br>
+        <br><button class="logouts" onclick="Ver()" href="#">- Ver Citas</button>            
+         <br><button class="logouts" onclick="eliminarC()" href="#">- Eliminar</button>
+    </div>    
+    <button class="logout" id="btn-inventario">Inventario ▾</button>
+    <div class="submenu" id="submenu-inventario">        
+        <br><button class="bton-active" onclick="agregarIn()" href="#">- Agregar</button><br>
+        <br><button class="logouts" onclick="modificarIn()" href="#">- Modificar</button>            
+         <br><button class="logouts" onclick="eliminarIn()" href="#">- Eliminar</button>
+    </div> 
+    <button class="logout" onclick="Clientes()" href="#">Clientes</button>
+    <button class="logout" onclick="Usuarios()" href="#">Usuarios</button>
+    <button  class="logout" onclick="Consultas()" href="#">Consultas></button>
+    <div class="logoutc" onclick="cerrarSesion()">Cerrar sesión</div>
+  </div>
+
+    <!-- Formulario -->
+    <div class="formulario">
+      <h2>INVENTARIO   -  Agrega un nuevo producto</h2>
+      <form id="formCita">
+        <input type="text" id="id" placeholder="Id producto" required>
+        <input type="text" id="producto" placeholder="Nombre del producto" required>
+
+        <input type="text" id="mascota" placeholder="Nombre de la mascota" required>
+        <select id="tipo">
+          <option value="Tipo">Tipo de producto</option>
+          <option value="Vacunación">Vacunación</option>
+          <option value="Emergencia">Emergencia</option>
+        </select>
+
+        <textarea id="Descripcion" placeholder="Descripcion del producto"></textarea>
+
+        <select id="veterinario">
+          <option value="Eduardo">Eduardo</option>
+          <option value="Iván">Iván</option>
+        </select>
+
+        <select id="prioridad">
+          <option value="Baja">Baja</option>
+          <option value="Media">Media</option>
+          <option value="Alta">Alta</option>
+        </select>
+
+        <input type="time" id="hora" value="12:00">
+        <input type="date" id="fecha">
+
+        <div class="boton-guardar">
+          <button type="submit">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('formCita');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const nuevaCita = {
+        id: document.getElementById('id').value,
+        cliente: document.getElementById('cliente').value,
+        mascota: document.getElementById('mascota').value,
+        tipo: document.getElementById('tipo').value,
+        motivo: document.getElementById('motivo').value,
+        veterinario: document.getElementById('veterinario').value,
+        prioridad: document.getElementById('prioridad').value,
+        hora: document.getElementById('hora').value,
+        fecha: document.getElementById('fecha').value
+      };
+
+      // Obtener citas guardadas o crear lista vacía
+      const citas = JSON.parse(localStorage.getItem('citas')) || [];
+      citas.push(nuevaCita);
+      localStorage.setItem('citas', JSON.stringify(citas));
+
+      alert('✅ Cita guardada correctamente');
+      form.reset();
+    });
+  </script>
+
+    <!--Funcion para el menu desplegable-->
+<script>
+    // Selecciona el botón y el submenú
+const btnCitas = document.getElementById('btn-citas');
+const submenuCitas = document.getElementById('submenu-citas');
+
+//funcion del boton inventario
+const btnInventario = document.getElementById('btn-inventario');
+const submenuInventario = document.getElementById('submenu-inventario');
+// Al hacer clic en el botón de Citas
+btnCitas.addEventListener('click', () => {
+  // Alternar la visibilidad del submenú
+  submenuCitas.classList.toggle('show');
+
+  // Marcar o desmarcar el botón como activo
+  btnCitas.classList.toggle('active');
+});
+btnInventario.addEventListener('click', () => {
+  // Alternar la visibilidad del submenú
+  submenuInventario.classList.toggle('show');
+
+  // Marcar o desmarcar el botón como activo
+  btnInventario.classList.toggle('active');
+});
+</script>
+
+
+
+
+  <script>
+    function cerrarSesion (){
+        window.location.href = "login.html";
+    }
+</script>
+<script>
+    function agendar (){
+        window.location.href = "agendarCitas.html";
+    }
+</script>
+<script>
+    function Ver (){
+        window.location.href = "verCitas.html";
+    }
+</script>
+<script>
+    function eliminarC (){
+        window.location.href = "eliminarCitas.html";
+    }
+</script>
+  
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas</title>
+    <style>
+        body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #e5f4f1;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #65A8C2;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .logoutc {
+      margin-top: 30px;
+      background-color: #e05a5a;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .logout {
+      margin-top: 30px;
+      background-color: #65A8C2;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .menu {
+      flex-grow: 1;
+      text-align: center;
+      padding: 40px;
+    }
+    .menu-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 160px);
+      gap: 25px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    
+    /*menu desplegable*/
+    .menu-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+  background-color: #ddd;
+}
+
+.menu-btn.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+.submenu {
+  display: none; /* oculto por defecto */
+  padding-left: 20px;
+}
+
+.submenu.show {
+  display: block; /* mostrar cuando se active */
+}
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+    <img src="logo.png" alt="logo" width="180" height="200">
+    <h2>🐾 PET CARE</h2>
+  <div class="menu">
+  <div class="menu-item">
+    <button class="menu-btn" id="btn-citas">Citas ▾</button>
+    <div class="submenu" id="submenu-citas">
+        <button class="menu-btn" onclick="agendar()" href="#">Agendar</button><br><br>
+        <button class="menu-btn" onclick="Ver()" href="#">Ver Citas</button>    
+    </div>
+        <br><br><a href="#">Inventario</a>
+        <br><br><a href="#">Clientes</a>
+        <br><br><a href="#">Usuarios</a>
+        <br><br><a href="#">Consultas</a>
+  </div>
+</div>
+    
+    <div class="logoutc" onclick="cerrarSesion()">Cerrar sesión</div>
+  </div>
+
+
+  <script>
+    function cerrarSesion() {
+      // Regresa al login
+      window.location.href = "login.html";
+    }
+// Llamar función al cargar la pantalla de Citas
+marcarBotonActivo('btn-citas', 'submenu-citas');
+  </script>
+
+<!--Funcion para el menu desplegable-->
+<script>
+    // Selecciona el botón y el submenú
+const btnCitas = document.getElementById('btn-citas');
+const submenuCitas = document.getElementById('submenu-citas');
+
+// Al hacer clic en el botón de Citas
+btnCitas.addEventListener('click', () => {
+  // Alternar la visibilidad del submenú
+  submenuCitas.classList.toggle('show');
+
+  // Marcar o desmarcar el botón como activo
+  btnCitas.classList.toggle('active');
+});
+</script>
+
+<script>
+    function Ver (){
+        window.location.href = "verCitas.html";
+    }
+</script>
+<script>
+    function agendar (){
+        window.location.href = "agendarCitas.html";
+    }
+</script>
+</body>
+</html>

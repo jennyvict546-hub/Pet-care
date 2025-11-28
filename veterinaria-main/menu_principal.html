@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú principal - Pet Care</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #e5f4f1;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #65A8C2;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .logout {
+      margin-top: 30px;
+      background-color: #e5f4f1;
+      padding: 8px 15px;
+      border-radius: 55px;
+      cursor: pointer;
+    }
+    .logouts {
+      margin-top: 30px;
+      background-color: #B5D6CB;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .logoutc {
+      margin-top: 30px;
+      background-color: #e05a5a;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .menu {
+      flex-grow: 1;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .menu-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 160px);
+      gap: 25px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .menu-buttons button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 140px;
+      font-size: 16px;
+      border: none;
+      background-color: #B5D6CB;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;      
+    }
+
+    .menu-buttons button:hover {
+      background-color: #B5D6CB;
+      transform: scale(1.05);
+    }
+    .menu-buttons button img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+
+    /*menu desplegable*/
+    .menu-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  background-color: #65A8C2;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+  background-color: #ddd;
+}
+
+.menu-btn.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+.submenu {
+  display: none; /* oculto por defecto */
+  padding-left: 20px;
+}
+
+.submenu.show {
+  display: block; /* mostrar cuando se active */
+}
+  </style>
+
+</head>
+<body>
+    <div id="loader">
+  <img src="logo.png" alt="PET CARE" class="logo">
+  <p>Cargando...</p>
+</div>
+
+<style>
+#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #b6d9d3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeOut 5s ease forwards;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  animation: saltar 5s infinite alternate;
+}
+
+@keyframes saltar {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-15px); }
+}
+
+@keyframes fadeOut {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+</style>
+
+
+  <div class="sidebar">
+    <img src="logo.png" alt="logo" width="180" height="200">
+    <h2>🐾 PET CARE</h2>
+    <button class="logout" id="btn-citas">Citas ▾</button>
+    <div class="submenu" id="submenu-citas">        
+        <button class="logouts" onclick="agendar()" href="#">- Agendar</button><br>
+        <button class="logouts" onclick="Ver()" href="#">- Ver Citas</button><br>
+        <button class="logouts" onclick="eliminarC()" href="#">- Eliminar Cita</button>            
+    </div>    
+    <button class="logout" id="btn-inventario">Inventario  ▾</button>
+    <div class="submenu" id="submenu-inventario">        
+        <button class="logouts" onclick="agregarIn()" href="#">- Agregar</button><br>
+        <button class="logouts" onclick="modificarIn()" href="#">- Modificar</button><br>      
+        <button class="logouts" onclick="eliminarIn()" href="#">- Eliminar</button>      
+    </div>
+    <button class="logout" onclick="Clientes()" href="#">- Clientes  ▾</button>
+    <button class="logout" onclick="Usuarios()" href="#">- Usuarios  ▾</button>
+    <button  class="logout" onclick="Consultas()" href="#">- Consultas  ▾</button>
+    <div class="logoutc" onclick="cerrarSesion()">Cerrar sesión</div>
+  </div>
+
+  <div class="menu">
+    <h2>Menú principal</h2>
+    <div class="menu-buttons">    
+      <button onclick="citasImg()" href="#"> <img src="citas.png" alt="Citas"><span>Citas</span></button>      
+      <button onclick="inventarioImg()" href="#"><img src="inventario.png" alt="Inventario"><span>Inventario</span></button>      
+      <button onclick="clientesImg()" href="#"><img src="clientes.png" alt="Clientes"><span>Clientes</span></button>      
+      <button onclick="usuariosImg()" href="#"><img src="usuarios.png" alt="Usuarios"><span>Usuarios</span></button>
+      <button onclick="consultasImg()" href="#"><img src="consultas.png" alt="Consultas"><span>Consultas</span></button>
+    </div>
+  </div>
+
+<!--Funcion para el menu desplegable-->
+<script>
+    // Selecciona el botón y el submenú
+const btnCitas = document.getElementById('btn-citas');
+const submenuCitas = document.getElementById('submenu-citas');
+
+const btnInventario = document.getElementById('btn-inventario');
+const submenuInventario = document.getElementById('submenu-inventario');
+
+// Al hacer clic en el botón de Citas
+btnCitas.addEventListener('click', () => {
+  
+
+  // Alternar la visibilidad del submenú
+  submenuCitas.classList.toggle('show');
+
+  // Marcar o desmarcar el botón como activo
+  btnCitas.classList.toggle('active');
+  
+});
+
+btnInventario.addEventListener('click', () => {
+
+   // Alternar la visibilidad del submenú
+  submenuInventario.classList.toggle('show');
+  // Marcar o desmarcar el botón como activo
+  btnCitas.classList.toggle('active');
+  btnInventario.classList.toggle('active');
+});
+</script>
+<!--Navegacion entre pantallas de los botones-->
+<script>
+    function cerrarSesion() {
+      // Regresa al login
+      window.location.href = "login.html";
+    }
+  </script>
+
+<script>
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("loader").style.display = "none";
+  }, 1500);
+});
+</script>
+<!--Navegacion entre pantallas de los botones del menu principal de CITAS-->
+<script>
+    function agendar (){
+        window.location.href = "agendarCitas.html";
+    }
+</script>
+<script>
+    function Ver (){
+        window.location.href = "verCitas.html";
+    }
+</script>
+
+<script>
+    function eliminarC (){
+        window.location.href = "eliminarCitas.html";
+    }
+</script>
+<!--Navegacion entre pantallas de los botones del menu principal de INVENTARIO-->
+<script>
+    function agregarIn (){
+        window.location.href = "agregarInventario.html";
+    }
+</script>
+<!--Navegacion entre pantallas de los botones de IMAGEN del menu principal-->
+
+<script>
+    function citasImg (){
+        window.location.href = "verCitas.html";
+    }
+</script>
+<script>
+    function inventarioImg (){
+        window.location.href = "agregarInventario.html";
+    }
+</script>
+</body>
+</html>
